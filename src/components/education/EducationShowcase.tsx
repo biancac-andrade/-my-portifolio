@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState, type PointerEvent } from 'react'
 import type { EducationItem } from '@/types/profile'
+import { useNarrowViewport } from '@/hooks/useNarrowViewport'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 type EducationShowcaseProps = {
@@ -8,6 +9,7 @@ type EducationShowcaseProps = {
 }
 
 const CARD_SHIFT = 292
+const SWIPE_THRESHOLD_PX = 42
 
 function defaultEducationIndex(count: number) {
   if (count <= 1) return 0
@@ -17,6 +19,11 @@ function defaultEducationIndex(count: number) {
 export function EducationShowcase({ items }: EducationShowcaseProps) {
   const [index, setIndex] = useState(() => defaultEducationIndex(items.length))
   const reducedMotion = useReducedMotion()
+  const narrow = useNarrowViewport()
+  const compact = narrow || reducedMotion
+  const swipePointer = useRef<number | null>(null)
+  const swipeStartX = useRef(0)
+
   const goTo = useCallback(
     (next: number) => {
       setIndex(Math.max(0, Math.min(next, items.length - 1)))
@@ -24,25 +31,82 @@ export function EducationShowcase({ items }: EducationShowcaseProps) {
     [items.length],
   )
 
+  const onViewportPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (!compact) return
+    if (event.pointerType === 'mouse' && event.button !== 0) return
+    swipePointer.current = event.pointerId
+    swipeStartX.current = event.clientX
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  const onViewportPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    if (!compact || swipePointer.current !== event.pointerId) return
+    const delta = event.clientX - swipeStartX.current
+    swipePointer.current = null
+    if (Math.abs(delta) < SWIPE_THRESHOLD_PX) return
+    goTo(index + (delta < 0 ? 1 : -1))
+  }
+
+  const onViewportPointerCancel = () => {
+    swipePointer.current = null
+  }
+
+  const prev = () => goTo(index - 1)
+  const next = () => goTo(index + 1)
+
   return (
-    <div className="edu-spotlight spotlight-carousel spotlight-carousel--sides">
+    <div
+      className="edu-spotlight spotlight-carousel spotlight-carousel--sides"
+      data-compact={compact || undefined}
+    >
       <div className="spotlight-carousel__rail">
         <button
           type="button"
-          className="spotlight-carousel__side spotlight-carousel__side--prev"
-          onClick={() => goTo(index - 1)}
+          className="spotlight-carousel__side spotlight-carousel__side--prev spotlight-carousel__side--rail"
+          onClick={prev}
           disabled={index === 0}
           aria-label="Formação anterior"
         >
           ←
         </button>
 
-        <div className="spotlight-carousel__viewport spotlight-carousel__viewport--tall">
+        <div
+          className="spotlight-carousel__viewport spotlight-carousel__viewport--tall"
+          onPointerDown={onViewportPointerDown}
+          onPointerUp={onViewportPointerUp}
+          onPointerCancel={onViewportPointerCancel}
+        >
+          {compact ? (
+            <>
+              <button
+                type="button"
+                className="edu-spotlight__edge edu-spotlight__edge--prev"
+                onClick={prev}
+                disabled={index === 0}
+                aria-label="Formação anterior"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                className="edu-spotlight__edge edu-spotlight__edge--next"
+                onClick={next}
+                disabled={index === items.length - 1}
+                aria-label="Próxima formação"
+              >
+                →
+              </button>
+            </>
+          ) : null}
           <ul className="spotlight-carousel__stage" aria-live="polite">
             {items.map((item, i) => {
               const offset = i - index
               const isActive = offset === 0
-              const visible = Math.abs(offset) <= 2
+              const visible = compact
+                ? isActive
+                : Math.abs(offset) <= 2
+
+              if (compact && !isActive) return null
 
               return (
                 <motion.li
@@ -50,14 +114,14 @@ export function EducationShowcase({ items }: EducationShowcaseProps) {
                   className="spotlight-carousel__item"
                   initial={false}
                   animate={
-                    reducedMotion
+                    compact
                       ? {
-                          opacity: isActive ? 1 : 0,
+                          opacity: 1,
                           scale: 1,
                           x: 0,
                           y: 0,
                           rotateY: 0,
-                          zIndex: isActive ? 20 : 0,
+                          zIndex: 20,
                         }
                       : {
                           x: offset * CARD_SHIFT,
@@ -72,7 +136,11 @@ export function EducationShowcase({ items }: EducationShowcaseProps) {
                           zIndex: 30 - Math.abs(offset) * 10,
                         }
                   }
-                  transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: compact ? 400 : 280,
+                    damping: compact ? 34 : 28,
+                  }}
                   style={{
                     pointerEvents:
                       visible && Math.abs(offset) <= 1 ? 'auto' : 'none',
@@ -84,7 +152,7 @@ export function EducationShowcase({ items }: EducationShowcaseProps) {
                     data-accent={item.accent ?? 'cyan'}
                     data-active={isActive || undefined}
                     whileHover={
-                      reducedMotion || !isActive
+                      reducedMotion || !isActive || compact
                         ? undefined
                         : {
                             y: -6,
@@ -93,7 +161,7 @@ export function EducationShowcase({ items }: EducationShowcaseProps) {
                           }
                     }
                     onClick={() => {
-                      if (!isActive) goTo(i)
+                      if (!isActive && !compact) goTo(i)
                     }}
                   >
                     <span className="edu-poster__grid" aria-hidden />
@@ -109,7 +177,11 @@ export function EducationShowcase({ items }: EducationShowcaseProps) {
                             ? undefined
                             : { scale: 1.05 }
                         }
-                        transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 400,
+                          damping: 22,
+                        }}
                       >
                         <img
                           src={item.logoUrl}
@@ -142,7 +214,9 @@ export function EducationShowcase({ items }: EducationShowcaseProps) {
                       <span className="edu-poster__chip-sep" aria-hidden>
                         ·
                       </span>
-                      <span className="edu-poster__chip-status">{item.status}</span>
+                      <span className="edu-poster__chip-status">
+                        {item.status}
+                      </span>
                     </div>
                   </motion.article>
                 </motion.li>
@@ -153,8 +227,8 @@ export function EducationShowcase({ items }: EducationShowcaseProps) {
 
         <button
           type="button"
-          className="spotlight-carousel__side spotlight-carousel__side--next"
-          onClick={() => goTo(index + 1)}
+          className="spotlight-carousel__side spotlight-carousel__side--next spotlight-carousel__side--rail"
+          onClick={next}
           disabled={index === items.length - 1}
           aria-label="Próxima formação"
         >
@@ -162,21 +236,50 @@ export function EducationShowcase({ items }: EducationShowcaseProps) {
         </button>
       </div>
 
-      <div
-        className="spotlight-carousel__dots edu-spotlight__dots"
-        role="tablist"
-        aria-label="Formações"
-      >
-        {items.map((item, i) => (
-          <button
-            key={item.id}
-            type="button"
-            className="spotlight-carousel__dot"
-            aria-selected={i === index}
-            aria-label={`${item.badgeLabel ?? item.institution} — ${item.degree}`}
-            onClick={() => goTo(i)}
-          />
-        ))}
+      <div className="edu-spotlight__footer">
+        {compact ? (
+          <>
+            <p className="edu-spotlight__counter">
+              <span className="sr-only">Formação atual: </span>
+              {index + 1} de {items.length}
+            </p>
+            <div
+              className="edu-spotlight__dots edu-spotlight__dots--compact"
+              role="tablist"
+              aria-label="Formações"
+            >
+              {items.map((item, i) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  className="spotlight-carousel__dot"
+                  aria-selected={i === index}
+                  aria-label={`${item.badgeLabel ?? item.institution} — ${item.degree}`}
+                  onClick={() => goTo(i)}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div
+            className="spotlight-carousel__dots edu-spotlight__dots"
+            role="tablist"
+            aria-label="Formações"
+          >
+            {items.map((item, i) => (
+              <button
+                key={item.id}
+                type="button"
+                role="tab"
+                className="spotlight-carousel__dot"
+                aria-selected={i === index}
+                aria-label={`${item.badgeLabel ?? item.institution} — ${item.degree}`}
+                onClick={() => goTo(i)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

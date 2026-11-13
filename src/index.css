@@ -197,6 +197,7 @@ body {
   background: color-mix(in srgb, var(--card) 32%, transparent);
   position: relative;
   isolation: isolate;
+  overflow-x: clip;
 }
 
 a {

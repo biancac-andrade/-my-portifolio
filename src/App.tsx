@@ -4,7 +4,6 @@ import { FloatingNav } from '@/components/layout/FloatingNav'
 import { GlobalGrid } from '@/components/layout/GlobalGrid'
 import { ScrollAtmosphere } from '@/components/layout/ScrollAtmosphere'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
-import { SectionSocialDock } from '@/components/layout/SectionSocialDock'
 import { AboutSection } from '@/components/sections/AboutSection'
 import { ContactSection } from '@/components/sections/ContactSection'
 import { EducationSection } from '@/components/sections/EducationSection'
@@ -33,7 +32,6 @@ function App() {
       </main>
 
       <footer className="footer">
-        <SectionSocialDock className="section-social-dock--footer" />
         <p>
           © {profile.copyrightYear} {profile.name}
         </p>

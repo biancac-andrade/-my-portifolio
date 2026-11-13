@@ -1,0 +1,231 @@
+/* Display: Bodoni Moda · UI: Manrope · Meta: DM Mono */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Paleta · sinal neural (IA + acessibilidade) */
+  --black: #06080d;
+  --navy: #131d32;
+  --navy-deep: #0a0f18;
+  --cyan: #5ce1e6;
+  --cyan-soft: #9ef0f4;
+  --cyan-mist: #d7f7f9;
+  --signal: #5bda8e;
+  --signal-soft: #96ebc0;
+  --signal-mist: #daf5e8;
+  --insight: #7b8cff;
+  --insight-soft: #b4bfff;
+  --insight-deep: #4a57c9;
+  --focus-amber: #e8c547;
+  --danger: #e85d6f;
+
+  /* Aliases legados (componentes antigos) */
+  --teal: var(--cyan);
+  --teal-soft: var(--cyan-soft);
+  --teal-mist: var(--cyan-mist);
+  --violet: var(--insight-deep);
+  --violet-soft: var(--insight-soft);
+  --copper: var(--focus-amber);
+  --copper-soft: #f5e6a8;
+  --crimson: var(--danger);
+
+  --paper: #f4f7fb;
+  --paper-muted: #e8edf5;
+  --surface: #ffffff;
+
+  --ink: #0c1220;
+  --ink-soft: #273246;
+  --ink-muted: #5a677a;
+
+  /* Atmosfera (orbes) */
+  --honey: var(--insight);
+  --honey-soft: var(--insight-soft);
+  --slate: var(--navy);
+  --slate-soft: color-mix(in srgb, var(--cyan-mist) 65%, var(--paper));
+
+  --bg: var(--paper);
+  --bg-soft: var(--paper-muted);
+  --card: var(--surface);
+  --text: var(--ink-soft);
+  --text-h: var(--ink);
+  --text-muted: var(--ink-muted);
+
+  --primary: var(--navy);
+  --primary-hover: #1a2844;
+  --primary-fg: #f7fafc;
+  --link: color-mix(in srgb, var(--insight-deep) 72%, var(--navy));
+  --accent: var(--signal);
+  --accent-alt: var(--insight);
+  --accent-soft: var(--cyan-soft);
+
+  --border: color-mix(in srgb, var(--navy) 14%, var(--paper-muted));
+  --border-strong: color-mix(in srgb, var(--navy) 22%, #c0cad8);
+  --grid: color-mix(in srgb, var(--insight) 9%, transparent);
+  --grid-major: color-mix(in srgb, var(--cyan) 14%, transparent);
+  --grid-size-fine: 20px;
+  --grid-size-major: 80px;
+
+  --sky-fill: color-mix(in srgb, var(--cyan) 12%, var(--surface));
+  --gold-fill: color-mix(in srgb, var(--signal) 10%, var(--surface));
+  --accent-bg: var(--sky-fill);
+  --accent-border: color-mix(in srgb, var(--cyan) 32%, var(--insight) 22%);
+
+  --success: var(--signal);
+  --success-soft: var(--signal-mist);
+
+  --nav-bg: color-mix(in srgb, var(--black) 90%, var(--navy));
+  --nav-fg: #eef6ff;
+  --nav-muted: color-mix(in srgb, var(--nav-fg) 70%, transparent);
+  --nav-cta-bg: var(--signal);
+  --nav-cta-fg: var(--navy-deep);
+  --nav-active: color-mix(in srgb, var(--insight) 38%, var(--navy));
+
+  --terminal-accent: var(--cyan);
+  --terminal-ok: var(--signal-soft);
+
+  --shadow: 0 12px 34px color-mix(in srgb, var(--navy-deep) 14%, transparent);
+  --shadow-lg: 0 22px 52px color-mix(in srgb, var(--black) 18%, transparent);
+  --focus-ring: color-mix(in srgb, var(--focus-amber) 55%, var(--cyan));
+
+  /* Hero — destaque fora do cyan/verde-água */
+  --hero-emphasis: var(--insight-deep);
+  --hero-emphasis-muted: color-mix(in srgb, var(--insight-deep) 82%, var(--navy));
+  --hero-emphasis-line: color-mix(in srgb, var(--insight) 72%, var(--focus-amber) 28%);
+
+  --display: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  --sans: 'Manrope', system-ui, sans-serif;
+  --mono: 'DM Mono', ui-monospace, monospace;
+
+  --text-display: clamp(2.35rem, 6vw, 3.65rem);
+  --text-h2: clamp(1.65rem, 4vw, 2.15rem);
+  --text-h3: 1.05rem;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #080a10;
+    --paper-muted: #0e1119;
+    --surface: #141925;
+
+    --ink: #ecf4ff;
+    --ink-soft: #c2cede;
+    --ink-muted: #8a96a8;
+
+    --bg: var(--paper);
+    --bg-soft: var(--paper-muted);
+    --card: var(--surface);
+    --text: var(--ink-soft);
+    --text-h: var(--ink);
+    --text-muted: var(--ink-muted);
+
+    --primary: var(--cyan);
+    --primary-hover: var(--cyan-soft);
+    --primary-fg: var(--black);
+    --link: var(--cyan-soft);
+    --accent: var(--signal);
+    --accent-alt: var(--insight-soft);
+
+    --border: #222a38;
+    --border-strong: #323c4e;
+    --grid: color-mix(in srgb, var(--insight) 11%, transparent);
+    --grid-major: color-mix(in srgb, var(--cyan) 16%, transparent);
+    --sky-fill: color-mix(in srgb, var(--navy) 58%, var(--surface));
+    --gold-fill: color-mix(in srgb, var(--signal) 14%, var(--surface));
+    --accent-border: color-mix(in srgb, var(--insight-soft) 28%, var(--border));
+
+    --slate-soft: color-mix(in srgb, var(--navy) 70%, var(--cyan) 8%);
+
+    --nav-bg: color-mix(in srgb, var(--black) 94%, var(--insight-deep) 10%);
+    --nav-cta-bg: var(--signal);
+    --nav-cta-fg: var(--black);
+
+    --shadow: 0 16px 40px rgba(0, 0, 0, 0.48);
+    --shadow-lg: 0 28px 60px rgba(0, 0, 0, 0.55);
+    --focus-ring: color-mix(in srgb, var(--focus-amber) 45%, var(--cyan));
+
+    --hero-emphasis: var(--insight-soft);
+    --hero-emphasis-muted: color-mix(in srgb, var(--insight-soft) 88%, var(--ink));
+    --hero-emphasis-line: color-mix(in srgb, var(--focus-amber) 58%, var(--insight-soft) 42%);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(
+      90% 60% at 50% -10%,
+      color-mix(in srgb, var(--insight) 10%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      70% 50% at 100% 40%,
+      color-mix(in srgb, var(--cyan) 8%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      var(--bg-soft) 0%,
+      var(--bg) 48%,
+      var(--bg) 100%
+    );
+}
+
+#root {
+  width: 100%;
+  max-width: min(1240px, 100%);
+  margin: 0 auto;
+  border-inline: 1px solid var(--border);
+  min-height: 100svh;
+  background: color-mix(in srgb, var(--card) 32%, transparent);
+  position: relative;
+  isolation: isolate;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--sans);
+  color: var(--text-h);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--text-display);
+  line-height: 1.06;
+}
+
+h2 {
+  font-size: var(--text-h2);
+  line-height: 1.15;
+}
+
+h3 {
+  font-size: var(--text-h3);
+  letter-spacing: -0.01em;
+}

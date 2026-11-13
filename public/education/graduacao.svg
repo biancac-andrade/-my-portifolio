@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Gradua��o">
+  <rect width="120" height="120" rx="24" fill="#E1EBF0"/>
+  <path d="M60 32 22 48l38 16 38-16-38-16zm0 22L36 58v14c0 8 10 14 24 16 14-2 24-8 24-16V58L60 54z" fill="#477A91"/>
+  <text x="60" y="102" text-anchor="middle" fill="#3A5F70" font-family="system-ui,sans-serif" font-size="10">Eng. Computa��o</text>
+</svg>

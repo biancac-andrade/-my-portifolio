@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Instituto Matera">
+  <rect width="120" height="120" rx="24" fill="#2B4553"/>
+  <text x="60" y="56" text-anchor="middle" fill="#D6AA58" font-family="system-ui,sans-serif" font-size="15" font-weight="700">MATERA</text>
+  <text x="60" y="76" text-anchor="middle" fill="#A9CDD4" font-family="system-ui,sans-serif" font-size="11">Bootcamp IA</text>
+</svg>

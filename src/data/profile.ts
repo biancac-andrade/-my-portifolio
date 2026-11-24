@@ -237,10 +237,14 @@ export const showcaseProjects: ShowcaseProject[] = [
     id: 'catalog-bricrise',
     title: 'Catálogo Bricrisê',
     description:
-      'Vitrine de pulseiras e peças em macramê: temas, preços, disponibilidade e CTA para WhatsApp. CMS Contentful e deploy na Vercel.',
-    tags: ['Next.js', 'Contentful', 'TypeScript', 'Vercel'],
+      'Vitrine da minha marca artesanal: pulseiras em macramê, photocards e peças por tema — com preços, disponibilidade e pedido direto no WhatsApp. Next.js, conteúdo no Contentful e deploy na Vercel.',
+    context:
+      'Projeto autoral de ponta a ponta: faço as peças, defino a vitrine e evoluo a experiência no catálogo ao vivo.',
+    tags: ['Next.js', 'Contentful', 'TypeScript', 'Vercel', 'Produto pessoal'],
     category: 'apps',
     status: 'live',
+    statusLabel: 'Projeto pessoal · no ar',
+    liveCtaLabel: 'Ver catálogo',
     liveUrl: 'https://catalog-bricrise.vercel.app/',
     repoUrl: 'https://github.com/biancac-andrade/Catalog-Bricrise',
     previewImage: '/projects/catalog-bricrise-preview.png',

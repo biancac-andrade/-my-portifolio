@@ -63,9 +63,12 @@ export type ShowcaseProject = {
   id: string
   title: string
   description: string
+  context?: string
   tags: string[]
   category: ProjectCategory
   status: 'live' | 'repo' | 'soon'
+  statusLabel?: string
+  liveCtaLabel?: string
   repoUrl?: string
   liveUrl?: string
   previewImage?: string

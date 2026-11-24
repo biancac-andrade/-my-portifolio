@@ -48,12 +48,15 @@ export function ProjectShowcaseRow({
               className="project-row__status"
               data-status={project.status}
             >
-              {statusLabel[project.status]}
+              {project.statusLabel ?? statusLabel[project.status]}
             </span>
           </p>
 
           <h3 className="project-row__title">{project.title}</h3>
           <p className="project-row__desc">{project.description}</p>
+          {project.context ? (
+            <p className="project-row__context">{project.context}</p>
+          ) : null}
 
           <ul className="project-row__tags">
             {project.tags.map((tag) => (
@@ -71,7 +74,7 @@ export function ProjectShowcaseRow({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Ver na nuvem
+                {project.liveCtaLabel ?? 'Ver na nuvem'}
                 <IconArrowUpRight width={18} height={18} aria-hidden />
               </motion.a>
             ) : (
